@@ -22,7 +22,7 @@ services:
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
       - ${HOME}/jenkins-data:/var/jenkins_home
-      - ${PWD}/jenkins-init.sh:/developer/jenkins-init.sh
+    user: root
     ports:
       - "8081:8080"
     networks:

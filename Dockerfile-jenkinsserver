@@ -5,5 +5,8 @@ RUN apt-get update
 RUN apt-get install
 RUN apt-get install docker.io -y
 
+# Add the jenkins user to the docker group to allow socket access, to enable access
+RUN usermod -aG docker jenkins
+
 USER jenkins
 
