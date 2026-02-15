@@ -15,7 +15,7 @@ services:
       - casestudy
 
   jenkins-server:
-    image: "jenkins/jenkins"
+    image: "jenkins/jenkins:lts-jdk17"
     container_name: "jenkins_covidstat"
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
