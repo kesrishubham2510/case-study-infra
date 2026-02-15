@@ -1,0 +1,34 @@
+version: "3"
+
+services:
+  redis-client:
+    image: "redis"
+    container_name: "redis_covidstat"
+    restart: always
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis_data:/data
+    command: redis-server --appendonly yes
+
+    networks:
+      - casestudy
+
+  jenkins-server:
+    image: "jenkins/jenkins"
+    container_name: "jenkins_covidstat"
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+      - ${HOME}/jenkins-data:/var/jenkins_home
+      - ${PWD}/jenkins-init.sh:/developer/jenkins-init.sh
+    ports:
+      - "8081:8080"
+    networks:
+      - casestudy
+
+networks:
+  casestudy:
+    external: true
+
+volumes:
+  redis_data:
