@@ -3,7 +3,8 @@ FROM 'jenkins/jenkins:lts-jdk17'
 USER root
 RUN apt-get update
 RUN apt-get install
-RUN apt-get install docker.io -y
+
+RUN apt-get update && apt-get install -y ca-certificates  curl  gnupg lsb-release && curl -fsSL https://get.docker.com | sh
 
 # Add the jenkins user to the docker group to allow socket access, to enable access
 RUN usermod -aG docker jenkins
