@@ -1,6 +1,20 @@
 version: "3"
 
 services:
+
+  sonar-sever:
+    image: "sonarqube:latest"
+    container_name: "sonar-server"
+    restart: unless-stopped
+    volumes:
+      - sonarqube_data:/opt/sonarqube/data
+      - sonarqube_logs:/opt/sonarqube/logs
+      - sonarqube_extensions:/opt/sonarqube/extensions
+    ports:
+      - "9000:9000"
+    networks:
+      - casestudy
+
   redis-client:
     image: "redis"
     container_name: "redis_covidstat"
@@ -34,3 +48,6 @@ networks:
 
 volumes:
   redis_data:
+  sonarqube_data:
+  sonarqube_logs:
+  sonarqube_extensions:
