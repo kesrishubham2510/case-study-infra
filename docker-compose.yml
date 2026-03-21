@@ -36,6 +36,9 @@ services:
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
       - ${HOME}/jenkins-data:/var/jenkins_home
+#   to avoid csrf token issue, when connecting to VM instance using IAP
+    environment:
+      - JAVA_OPTS=-Djenkins.model.Jenkins.crumbIssuerProxyCompatibility=true -Dhudson.security.csrf.GlobalCrumbIssuerConfiguration.DISABLE_CSRF_PROTECTION=true
     user: root
     ports:
       - "8081:8080"
