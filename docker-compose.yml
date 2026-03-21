@@ -7,9 +7,9 @@ services:
     container_name: "sonar-server"
     restart: unless-stopped
     volumes:
-      - sonarqube_data:/opt/sonarqube/data
-      - sonarqube_logs:/opt/sonarqube/logs
-      - sonarqube_extensions:/opt/sonarqube/extensions
+      - ${HOME}/sonarqube_data:/opt/sonarqube/data
+      - ${HOME}/sonarqube_logs:/opt/sonarqube/logs
+      - ${HOME}/sonarqube_extensions:/opt/sonarqube/extensions
     ports:
       - "9000:9000"
     networks:
@@ -22,7 +22,7 @@ services:
     ports:
       - "6379:6379"
     volumes:
-      - redis_data:/data
+      - ${HOME}/redis_data:/data
     command: redis-server --appendonly yes
 
     networks:
