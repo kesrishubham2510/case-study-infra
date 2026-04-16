@@ -43,10 +43,10 @@ services:
     networks:
       - casestudy
 
-  networks:
-    casestudy:
-      external: true
+networks:
+  casestudy:
+    external: true
 
-  volumes:
-    es-data:
-    filebeat-data:
+volumes:
+  es-data:
+  filebeat-data:
