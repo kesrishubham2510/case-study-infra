@@ -1,0 +1,30 @@
+filebeat.inputs:
+  - type: container
+    paths:
+      - /var/lib/docker/containers/*/*.log
+
+    labels:
+      app: covidstat
+      loggable: "true"
+
+    processors:
+      - add_docker_metadata: ~
+
+      - decode_json_fields:
+          fields: ["log"]
+          target: ""
+          overwrite_keys: true
+
+      - drop_event:
+          when:
+            not:
+              equals:
+                docker.container.labels.loggable: "true"
+
+output.elasticsearch:
+  hosts: ["http://elasticsearch:9200"]
+
+setup.template.name: "covidstat-logs"
+setup.template.pattern: "covidstat-logs-*"
+
+logging.level: info
