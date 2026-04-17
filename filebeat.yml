@@ -21,6 +21,9 @@ filebeat.inputs:
               equals:
                 docker.container.labels.loggable: "true"
 
+setup.kibana:
+  host: "kibana:5601"
+
 output.elasticsearch:
   hosts: ["http://elasticsearch:9200"]
 
