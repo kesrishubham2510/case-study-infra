@@ -31,3 +31,4 @@ setup.template.name: "covidstat-logs"
 setup.template.pattern: "covidstat-logs-*"
 
 logging.level: info
+strict.perms: false
