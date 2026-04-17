@@ -45,28 +45,18 @@ services:
     networks:
       - casestudy
 
-  apm-server:
-    image: docker.elastic.co/apm/apm-server:7.17.18
-    container_name: apm-server
+  zipkin:
+    image: openzipkin/zipkin:latest
+    container_name: zipkin
     depends_on:
       - elasticsearch
-      - kibana
     ports:
-      - "8200:8200"
-    command: >
-      apm-server -e
-        -E apm-server.host=0.0.0.0:8200
-        -E output.elasticsearch.hosts=["http://elasticsearch:9200"]
-        -E setup.kibana.host=http://kibana:5601
-        -E setup.template.enabled=true
-        -E setup.ilm.enabled=true
-        -E apm-server.fleet.enabled=false
-        -E apm-server.rum.enabled=false
-        -E apm-server.mode=standalone
-        -E apm-server.otlp.enabled=true
+      - "9411:9411"
+    environment:
+      - STORAGE_TYPE=elasticsearch
+      - ES_HOSTS=http://elasticsearch:9200
     networks:
       - casestudy
-
 
 networks:
   casestudy:
