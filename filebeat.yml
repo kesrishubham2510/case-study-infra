@@ -3,23 +3,23 @@ filebeat.inputs:
     paths:
       - /var/lib/docker/containers/*/*.log
 
-    labels:
-      app: covidstat
-      loggable: "true"
+processors:
+  - add_docker_metadata:
+      host: "unix:///var/run/docker.sock"
+      match_source: true
+      match_short_id: true
 
-    processors:
-      - add_docker_metadata: ~
+  - decode_json_fields:
+      fields: ["message"]
+      target: ""
+      overwrite_keys: true
+      add_error_key: true
 
-      - decode_json_fields:
-          fields: ["log"]
-          target: ""
-          overwrite_keys: true
-
-      - drop_event:
-          when:
-            not:
-              equals:
-                docker.container.labels.loggable: "true"
+  - drop_event:
+      when:
+        not:
+          equals:
+            appName: "covidstat"
 
 setup.kibana:
   host: "kibana:5601"
@@ -27,8 +27,6 @@ setup.kibana:
 output.elasticsearch:
   hosts: ["http://elasticsearch:9200"]
 
-setup.template.name: "covidstat-logs"
-setup.template.pattern: "covidstat-logs-*"
 
 logging.level: info
 strict.perms: false
